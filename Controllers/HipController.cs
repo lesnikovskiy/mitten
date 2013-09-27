@@ -34,16 +34,6 @@ namespace Mitten.Controllers
 						: Request.CreateResponse(HttpStatusCode.NotFound);
 		}
 
-		// GET api/hip/john@gmail.com
-		public HttpResponseMessage Get(string email)
-		{
-			var hip = _repository.Get(email);
-
-			return hip != null
-						? Request.CreateResponse(HttpStatusCode.OK, hip)
-						: Request.CreateResponse(HttpStatusCode.NotFound);
-		}
-
 		// POST api/hip
 		public HttpResponseMessage Post(Hip hip)
 		{
@@ -58,10 +48,10 @@ namespace Mitten.Controllers
 		// PUT api/hip
 		public HttpResponseMessage Put(Hip hip)
 		{
-			var h = _repository.Update(hip);
+			var nHip = _repository.Update(hip);
 
-			var response = Request.CreateResponse(HttpStatusCode.Created, hip);
-			response.Headers.Location = new Uri(Request.RequestUri, String.Format("hip/{0}", h.Id));
+			var response = Request.CreateResponse(HttpStatusCode.Created, nHip);
+			response.Headers.Location = new Uri(Request.RequestUri, String.Format("hip/{0}", nHip.Id));
 
 			return response;
 		}

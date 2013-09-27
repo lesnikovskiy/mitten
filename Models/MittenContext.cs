@@ -17,7 +17,7 @@ namespace Mitten.Models
 		{
 			modelBuilder.Entity<Hip>()
 						.HasRequired(h => h.Location)
-						.WithMany()
+						.
 						.WillCascadeOnDelete(true);
 
 			base.OnModelCreating(modelBuilder);
