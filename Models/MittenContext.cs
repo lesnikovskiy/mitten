@@ -12,13 +12,18 @@ namespace Mitten.Models
 
 		public DbSet<Hip> Hips { get; set; }
 		public DbSet<Location> Location { get; set; }
+		public DbSet<WeatherCondition> WeatherConditions { get; set; } 
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<Hip>()
 						.HasRequired(h => h.Location)
-						.
-						.WillCascadeOnDelete(true);
+						.WithMany()
+						.WillCascadeOnDelete(false);
+			modelBuilder.Entity<WeatherCondition>()
+						.HasRequired(w => w.Hip)
+						.WithMany()
+						.WillCascadeOnDelete(false);
 
 			base.OnModelCreating(modelBuilder);
 		}

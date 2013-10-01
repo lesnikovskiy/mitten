@@ -34,6 +34,7 @@ namespace Mitten.Models.Repository
 
 		public Hip Insert(Hip hip)
 		{
+			hip.Location.CreatedDate = DateTime.UtcNow;
 			_context.Hips.Add(hip);
 			try
 			{
@@ -52,7 +53,7 @@ namespace Mitten.Models.Repository
 		// Only disconnected scenario will work with EF
 		public Hip Update(Hip hip)
 		{
-			var oHip = _context.Hips.FirstOrDefault(h => h.Id == hip.Id);
+			var oHip = _context.Hips.Include("Location").FirstOrDefault(h => h.Id == hip.Id);
 			if (oHip == null)
 				return Insert(hip);
 
@@ -61,16 +62,17 @@ namespace Mitten.Models.Repository
 			hip.Password = hip.Password ?? oHip.Password;
 			hip.Location.Lat = hip.Location.Lat > 0 ? hip.Location.Lat : oHip.Location.Lat;
 			hip.Location.Lng = hip.Location.Lng > 0 ? hip.Location.Lng : oHip.Location.Lng;
+			hip.Location.CreatedDate = DateTime.UtcNow;
 
 			var entry = _context.Entry(hip);
 			var key = GetPrimaryKey(entry);
 
 			if (entry.State == EntityState.Detached)
 			{
-				var currEntry = _context.Hips.Find(key);
-				if (currEntry != null)
+				var hipEntry = _context.Hips.Find(key);
+				if (hipEntry != null)
 				{
-					var attachedEntry = _context.Entry(currEntry);
+					var attachedEntry = _context.Entry(hipEntry);
 					attachedEntry.CurrentValues.SetValues(hip);
 				}
 				else
@@ -78,31 +80,50 @@ namespace Mitten.Models.Repository
 					_context.Hips.Attach(hip);
 					entry.State = EntityState.Modified;
 				}
-
-				_context.SaveChanges();
 			}
 
-			//try
-			//{
-			//	_context.SaveChanges();
-			//}
-			//catch (DbEntityValidationException e)
-			//{
-			//	var errs = e.EntityValidationErrors.SelectMany(err => err.ValidationErrors)
-			//				.ToDictionary(x => x.PropertyName, x => x.ErrorMessage);
+			var locationEntry = _context.Entry(hip.Location);
+			var locKey = GetPrimaryKey(locationEntry);
 
-			//}
+			if (locationEntry.State == EntityState.Detached)
+			{
+				var locEntry = _context.Location.Find(locKey);
+				if (locEntry != null)
+				{
+					var attachedLocEntry = _context.Entry(locEntry);
+					attachedLocEntry.CurrentValues.SetValues(hip.Location);
+				}
+				else
+				{
+					_context.Location.Attach(hip.Location);
+					locationEntry.State = EntityState.Modified;
+				}
+			}
+
+			try
+			{
+				_context.SaveChanges();
+			}
+			catch (DbEntityValidationException e)
+			{
+				var errs = e.EntityValidationErrors.SelectMany(err => err.ValidationErrors)
+							.ToDictionary(x => x.PropertyName, x => x.ErrorMessage);
+
+			}
 
 			return hip;
 		}
 
-		private int GetPrimaryKey(DbEntityEntry entry)
+		private static int GetPrimaryKey(DbEntityEntry entry)
 		{
 			var myObj = entry.Entity;
 			var property =
 				myObj.GetType().GetProperties().FirstOrDefault(prop => Attribute.IsDefined(prop, typeof (KeyAttribute)));
 
-			return (int) property.GetValue(myObj, null);
+			if (property != null) 
+				return (int) property.GetValue(myObj, null);
+
+			return -1;
 		}
 
 		public bool Delete(int id)

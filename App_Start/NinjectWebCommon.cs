@@ -57,6 +57,7 @@ namespace Mitten.App_Start
         private static void RegisterServices(IKernel kernel)
         {
 	        kernel.Bind<IHipRepository>().To<HipRepository>();
+	        kernel.Bind<IWeatherRepository>().To<WeatherRepository>();
 
 			GlobalConfiguration.Configuration.DependencyResolver = new NinjectResolver(kernel);
         }        
