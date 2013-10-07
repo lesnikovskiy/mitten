@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 
 namespace Mitten.Models
 {
@@ -16,6 +17,8 @@ namespace Mitten.Models
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
+			modelBuilder.Conventions.Remove<IncludeMetadataConvention>();
+
 			modelBuilder.Entity<Hip>()
 						.HasRequired(h => h.Location)
 						.WithMany()

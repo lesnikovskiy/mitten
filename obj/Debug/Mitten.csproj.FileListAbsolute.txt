@@ -77,3 +77,4 @@ D:\PROGRAMMING LIBRARY\Java\IDE\adt-bundle-windows-x86_64-20130729\adt-bundle-wi
 D:\PROGRAMMING LIBRARY\Java\IDE\adt-bundle-windows-x86_64-20130729\adt-bundle-windows-x86_64-20130729\projects\Mitten\Mitten\bin\zh-Hant\System.Spatial.resources.dll
 D:\PROGRAMMING LIBRARY\Java\IDE\adt-bundle-windows-x86_64-20130729\adt-bundle-windows-x86_64-20130729\projects\Mitten\Mitten\obj\Debug\Mitten.dll
 D:\PROGRAMMING LIBRARY\Java\IDE\adt-bundle-windows-x86_64-20130729\adt-bundle-windows-x86_64-20130729\projects\Mitten\Mitten\obj\Debug\Mitten.pdb
+D:\PROGRAMMING LIBRARY\Java\IDE\adt-bundle-windows-x86_64-20130729\adt-bundle-windows-x86_64-20130729\projects\Mitten\Mitten\obj\Debug\Mitten.csprojResolveAssemblyReference.cache

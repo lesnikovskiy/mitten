@@ -1,0 +1,19 @@
+﻿User Fiddler to test the web service.
+
+Specify content type (is a must)
+Content-Type: application/json
+
+http://localhost:3000/api/hip 
+GET
+returns collection of all hips
+
+POST (creates new item)
+{Name:"olia.lily@mail.ru",Password:"test",Key:"efz4-asdf-4355-3334", Location:{Lat:50.0,Lng:30.0}}
+
+UPDATE (updates the current user)
+{Id:3, Name: "olia.lily@mail.ru", Password:"Coffee123", Key:"efz4-asdf-4355-3334-asdfasdf", Location:{Id:3,Lat:70,Lng:22}}
+
+http://localhost:3000/api/weather
+
+POST (CREATES new item)
+{TempC: 6, Visibility: 33, Cloudcover: 23, Humidity: 80, Pressure: 1000, WindspeedKmph: 23, WeatherDesc: 'good', Lat: 50, Lng: 30, Hip_Id: 1}

@@ -10,8 +10,8 @@ namespace Mitten.Models
 
 		[DataType(DataType.Date)]
 		public DateTime ObservationTime { get; set; }
+
 		[Required(ErrorMessage = "TempC is required")]
-		
 		public int TempC { get; set; }
 		[Required(ErrorMessage = "Visibility is required")]
 		public int Visibility { get; set; }

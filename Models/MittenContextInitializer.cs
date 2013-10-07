@@ -6,7 +6,7 @@ namespace Mitten.Models
 	{
 		protected override void Seed(MittenContext context)
 		{
-			// TODO: Write migration here
+			// TODO: Add migration script here
 			base.Seed(context);
 		}
 	}
